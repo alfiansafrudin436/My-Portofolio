@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Elegant Next.js Portfolio
 
-## Getting Started
+This is a modern, elegant web developer portfolio template built with Next.js (App Router), Tailwind CSS v4, Framer Motion, and Sanity.io CMS.
 
-First, run the development server:
+## Quick Start
+
+1. Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Run the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) to view the portfolio.
+Open [http://localhost:3000/studio](http://localhost:3000/studio) to manage your projects in Sanity Studio.
 
-## Learn More
+## Deployment to Vercel
 
-To learn more about Next.js, take a look at the following resources:
+1. Push this repository to GitHub.
+2. Log into [Vercel](https://vercel.com) and click "Add New... Project".
+3. Import your GitHub repository.
+4. Set up the Environment Variables (if any, like `NEXT_PUBLIC_SANITY_PROJECT_ID`).
+5. Click **Deploy**. Vercel will automatically use Next.js routing and build everything. Note that we provided a `vercel.json` that sets the deployment region to `sin1` (Singapore) for faster access in SE Asia.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Content Management (Sanity)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To activate your CMS:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Go to [Sanity.io](https://sanity.io) and create an account/project.
+2. Add your Project ID and Dataset to `.env.local` or directly to `sanity.config.ts`.
+3. Start adding projects via `/studio` route!
