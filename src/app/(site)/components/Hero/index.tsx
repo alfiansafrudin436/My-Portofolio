@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { MotionConfig, motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { Container } from "@/components/Container";
 import type { Profile } from "@/types/models";
@@ -17,92 +17,97 @@ function splitLast(text: string): [string, string] {
 }
 
 export function Hero({ profile }: { profile: Profile | null }) {
-  const reduceMotion = useReducedMotion();
-
   const name = profile?.full_name ?? "Alfian Safrudin";
   const statement =
     profile?.tagline ?? "I build fast, scalable interfaces for the web.";
   const [lead, lastWord] = splitLast(statement);
 
+  // The initial state must be identical on the server and in the browser.
+  // Branching it on useReducedMotion() made the two disagree for visitors with
+  // reduced motion enabled (the server cannot know), which React reports as a
+  // hydration mismatch and answers by re-rendering the whole page. Leave the
+  // variants fixed and let MotionConfig skip the transform animation instead.
   const reveal = {
-    hidden: { opacity: 0, y: reduceMotion ? 0 : 16 },
+    hidden: { opacity: 0, y: 16 },
     visible: (index: number) => ({
       opacity: 1,
       y: 0,
       transition: {
-        duration: reduceMotion ? 0 : 0.45,
-        delay: reduceMotion ? 0 : index * 0.09,
+        duration: 0.45,
+        delay: index * 0.09,
         ease: "easeOut" as const,
       },
     }),
   };
 
   return (
-    <Container
-      as="section"
-      className="flex min-h-[calc(72svh-4rem)] flex-col justify-center py-16"
-    >
-      <h1>
-        {/* The name is the title; the tagline below is the subtitle. They are
-            separated three ways — size, weight and colour — so the hierarchy
-            survives even at phone width where the size gap narrows. */}
-        <motion.span
-          custom={0}
-          variants={reveal}
-          initial="hidden"
-          animate="visible"
-          className="block text-display font-medium text-balance"
-        >
-          {name}
-        </motion.span>
-
-        <motion.span
-          custom={1}
-          variants={reveal}
-          initial="hidden"
-          animate="visible"
-          className="mt-4 block max-w-[34ch] text-xl font-normal text-fg-muted text-balance"
-        >
-          {lead}{" "}
-          <span className="text-accent">{lastWord}</span>
-        </motion.span>
-      </h1>
-
-      <motion.div
-        custom={2}
-        variants={reveal}
-        initial="hidden"
-        animate="visible"
-        className="mt-12 grid gap-8 border-t border-border pt-6 md:grid-cols-12"
+    <MotionConfig reducedMotion="user">
+      <Container
+        as="section"
+        className="flex min-h-[calc(72svh-4rem)] flex-col justify-center py-16"
       >
-        <div className="space-y-2 md:col-span-4">
-          <p className="label text-fg">{profile?.headline ?? "Frontend Engineer"}</p>
-          {profile?.location && (
-            <p className="label text-fg-muted">{profile.location}</p>
-          )}
-          {profile?.available && (
-            <p className="label flex items-center gap-2 text-fg-muted">
-              <span
-                className="inline-block size-1.5 rounded-full bg-success"
-                aria-hidden
-              />
-              {profile.available_note ?? "Available for new opportunities"}
-            </p>
-          )}
-        </div>
+        <h1>
+          {/* The name is the title; the tagline below is the subtitle. They are
+              separated three ways — size, weight and colour — so the hierarchy
+              survives even at phone width where the size gap narrows. */}
+          <motion.span
+            custom={0}
+            variants={reveal}
+            initial="hidden"
+            animate="visible"
+            className="block text-display font-medium text-balance"
+          >
+            {name}
+          </motion.span>
 
-        <div className="md:col-span-6 md:col-start-7">
-          {profile?.bio && (
-            <p className="max-w-[46ch] text-base text-fg-muted text-pretty">
-              {profile.bio.split(/\n{2,}/)[0]}
+          <motion.span
+            custom={1}
+            variants={reveal}
+            initial="hidden"
+            animate="visible"
+            className="mt-4 block max-w-[34ch] text-xl font-normal text-fg-muted text-balance"
+          >
+            {lead}{" "}
+            <span className="text-accent">{lastWord}</span>
+          </motion.span>
+        </h1>
+
+        <motion.div
+          custom={2}
+          variants={reveal}
+          initial="hidden"
+          animate="visible"
+          className="mt-12 grid gap-8 border-t border-border pt-6 md:grid-cols-12"
+        >
+          <div className="space-y-2 md:col-span-4">
+            <p className="label text-fg">{profile?.headline ?? "Frontend Engineer"}</p>
+            {profile?.location && (
+              <p className="label text-fg-muted">{profile.location}</p>
+            )}
+            {profile?.available && (
+              <p className="label flex items-center gap-2 text-fg-muted">
+                <span
+                  className="inline-block size-1.5 rounded-full bg-success"
+                  aria-hidden
+                />
+                {profile.available_note ?? "Available for new opportunities"}
+              </p>
+            )}
+          </div>
+
+          <div className="md:col-span-6 md:col-start-7">
+            {profile?.bio && (
+              <p className="max-w-[46ch] text-base text-fg-muted text-pretty">
+                {profile.bio.split(/\n{2,}/)[0]}
+              </p>
+            )}
+            <p className="label mt-8 flex items-center gap-2 text-fg-subtle">
+              Scroll
+              <ArrowDown className="size-3" aria-hidden />
             </p>
-          )}
-          <p className="label mt-8 flex items-center gap-2 text-fg-subtle">
-            Scroll
-            <ArrowDown className="size-3" aria-hidden />
-          </p>
-        </div>
-      </motion.div>
-    </Container>
+          </div>
+        </motion.div>
+      </Container>
+    </MotionConfig>
   );
 }

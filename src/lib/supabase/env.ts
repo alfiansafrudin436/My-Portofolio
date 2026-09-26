@@ -13,10 +13,28 @@ function required(name: string, value: string | undefined): string {
   return value;
 }
 
+/**
+ * The dashboard shows several URLs that look alike: the project URL, and the
+ * REST, Auth and Storage endpoints under it. supabase-js appends those paths
+ * itself, so pasting an endpoint doubles them up and every request fails with
+ * "Invalid path specified in request URL". Reduce whatever was pasted to the
+ * bare origin so that mistake cannot take the site down.
+ */
+export function normalizeSupabaseUrl(value: string): string {
+  try {
+    return new URL(value.trim()).origin;
+  } catch {
+    throw new Error(
+      `NEXT_PUBLIC_SUPABASE_URL is not a valid URL: "${value}". ` +
+        `Use the Project URL from Project Settings > API, ` +
+        `e.g. https://<ref>.supabase.co`,
+    );
+  }
+}
+
 export function supabaseUrl(): string {
-  return required(
-    "NEXT_PUBLIC_SUPABASE_URL",
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
+  return normalizeSupabaseUrl(
+    required("NEXT_PUBLIC_SUPABASE_URL", process.env.NEXT_PUBLIC_SUPABASE_URL),
   );
 }
 
