@@ -1,64 +1,53 @@
 import type { Metadata } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { ToastProvider } from "@/components/Toast";
+import { SITE } from "@/lib/constants";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Alfian | Portfolio",
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: `${SITE.name} — Frontend Engineer`,
+    template: `%s — ${SITE.name}`,
+  },
   description:
-    "A modern, elegant web developer portfolio showing premium projects.",
+    "Portfolio of Alfian Safrudin, a frontend engineer building performant and scalable web interfaces.",
 };
+
+/**
+ * Runs synchronously in <head>, so the theme class lands before first paint
+ * and a dark-mode visitor never sees a white flash. `theme-ready` gates the
+ * CSS colour transition so the initial render does not animate.
+ */
+const THEME_SCRIPT = `(function(){try{
+var s=localStorage.getItem('theme');
+var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;
+var r=document.documentElement;
+r.classList.toggle('dark',d);
+r.style.colorScheme=d?'dark':'light';
+}catch(e){}
+document.documentElement.classList.add('theme-ready');})()`;
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${geistMono.variable} h-full antialiased dark`}
+      suppressHydrationWarning
+      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col selection:bg-white selection:text-black">
-        {/* Subtle background radial gradient for elegance */}
-        <div className="fixed inset-0 z-[-1] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/[0.05] to-black" />
-
-        {/* Navigation Navbar placeholder */}
-        <nav className="fixed top-0 inset-x-0 z-50 glass border-b border-white/5">
-          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <span className="font-semibold text-lg tracking-tight">
-              ALFIAN SAFRUDIN
-            </span>
-            <div className="flex gap-6 text-sm text-muted-foreground font-medium">
-              <a href="#work" className="hover:text-white transition-colors">
-                Work
-              </a>
-              <a href="#about" className="hover:text-white transition-colors">
-                About
-              </a>
-              <a href="#contact" className="hover:text-white transition-colors">
-                Contact
-              </a>
-            </div>
-          </div>
-        </nav>
-
-        <main className="flex-1 w-full max-w-7xl mx-auto pt-20 px-6">
-          {children}
-        </main>
-
-        <footer className="w-full py-12 text-center text-muted-foreground text-sm border-t border-white/5 mt-20">
-          <p>© {new Date().getFullYear()} Alfian. All rights reserved.</p>
-        </footer>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
+      <body className="flex min-h-full flex-col bg-bg text-fg">
+        <ThemeProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
