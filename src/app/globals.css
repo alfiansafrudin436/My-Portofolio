@@ -1,72 +1,179 @@
 @import "tailwindcss";
 
+/* Tailwind v4 has no `darkMode: "class"` config key — this line IS the config.
+   Without it every `dark:` utility is a silent no-op. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------- LIGHT --- */
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  --bg: #ffffff;
+  --bg-subtle: #f6f6f4; /* warm paper, not blue-grey */
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --fg: #0b0b0b; /* near-black; pure #000 on white is harsh */
+  --fg-muted: #5f5f5b;
+  --fg-subtle: #8a8a83;
+  --border: #e2e2dd;
+  --border-strong: #0b0b0b; /* the Swiss hairline rule */
+  --accent: #d92d1c;
+  --accent-fg: #ffffff;
+  --accent-subtle: #fdeceb;
+  --focus: #0b0b0b;
+  --success: #1c6f46;
+  --danger: #b3251a;
+}
 
-  --card: #0a0a0a;
-  --card-foreground: #ffffff;
-
-  --muted: #111111;
-  --muted-foreground: #a3a3a3;
-
-  --accent: #1f1f1f;
-  --accent-foreground: #ffffff;
-
-  --primary: #ffffff;
-  --primary-foreground: #000000;
+/* ----------------------------------------------------------------- DARK --- */
+.dark {
+  --bg: #0b0b0b;
+  --bg-subtle: #121211;
+  --surface: #121211;
+  --surface-raised: #1a1a19;
+  --fg: #f2f2ee;
+  --fg-muted: #a3a39c;
+  --fg-subtle: #74746e;
+  --border: #292927;
+  --border-strong: #f2f2ee;
+  --accent: #ff5240;
+  --accent-fg: #0b0b0b;
+  --accent-subtle: #2a1512;
+  --focus: #f2f2ee;
+  --success: #52cf92;
+  --danger: #ff7264;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+
   --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 
-  /* Custom Utilities for elegant UI */
-  --animate-fade-in: fade-in 1s ease-out forwards;
-  --animate-fade-up: fade-up 1s ease-out forwards;
+  /* Editorial type scale: big jumps, tracking tightens as size grows. */
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.12em;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.6;
+  --text-base: 1rem;
+  --text-base--line-height: 1.7;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.65;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.45;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.25;
+  --text-2xl--letter-spacing: -0.015em;
+  --text-3xl: 2.5rem;
+  --text-3xl--line-height: 1.1;
+  --text-3xl--letter-spacing: -0.02em;
+  --text-4xl: 3.75rem;
+  --text-4xl--line-height: 1.02;
+  --text-4xl--letter-spacing: -0.03em;
+  --text-display: clamp(2rem, 5.2vw, 4.25rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.025em;
+
+  --spacing-section: 7.5rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "tnum";
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  /* Colour transitions, but never on first paint: the inline theme script in
+     the root layout adds .theme-ready once the class is settled. */
+  .theme-ready body,
+  .theme-ready body * {
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-  .glass {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* The workhorse of the Swiss look: uppercase mono micro-label. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    line-height: 1.2;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-/* Scrollbar customization */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--muted);
-  border-radius: 4px;
+  background: var(--border);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: var(--fg-subtle);
 }
