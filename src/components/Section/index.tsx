@@ -19,7 +19,7 @@ export function Section({
   return (
     <section
       id={id}
-      className={cn("scroll-mt-20 border-t border-border py-20 md:py-section", className)}
+      className={cn("scroll-mt-20 border-t border-border/70 py-16 md:py-section", className)}
     >
       {content}
     </section>

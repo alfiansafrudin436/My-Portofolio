@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import NextLink from "next/link";
 import { EmptyState } from "@/components/EmptyState";
+import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ProjectRow } from "@/app/(site)/components/ProjectRow";
@@ -10,16 +11,17 @@ export function SelectedWork({ projects }: { projects: Project[] }) {
   return (
     <Section id="work">
       <SectionHeading
-        index="01"
-        title="Selected Work"
+        eyebrow="Proof of work"
+        title="Selected projects"
+        description="A few things I've built, with the role I played and the stack behind them."
         action={
           <NextLink
             href="/projects"
-            className="label group inline-flex items-center gap-2 text-fg-muted transition-colors hover:text-accent"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-fg-muted transition-colors hover:text-accent"
           >
             View all projects
             <ArrowRight
-              className="size-3.5 transition-transform group-hover:translate-x-1"
+              className="size-4 transition-transform group-hover:translate-x-1"
               aria-hidden
             />
           </NextLink>
@@ -32,9 +34,11 @@ export function SelectedWork({ projects }: { projects: Project[] }) {
           description="Published projects will appear here."
         />
       ) : (
-        <div className="border-b border-border">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
-            <ProjectRow key={project.id} project={project} index={index} />
+            <Reveal key={project.id} delay={index * 0.06}>
+              <ProjectRow project={project} />
+            </Reveal>
           ))}
         </div>
       )}

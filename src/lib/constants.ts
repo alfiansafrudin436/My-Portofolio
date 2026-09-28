@@ -8,10 +8,10 @@ export const SITE = {
 
 /** Section anchors on the home page, in document order. */
 export const NAV_LINKS = [
-  { href: "/#work", id: "work", label: "Work" },
-  { href: "/#about", id: "about", label: "About" },
-  { href: "/#capabilities", id: "capabilities", label: "Capabilities" },
   { href: "/#experience", id: "experience", label: "Experience" },
+  { href: "/#work", id: "work", label: "Projects" },
+  { href: "/#capabilities", id: "capabilities", label: "Skills" },
+  { href: "/#about", id: "about", label: "About" },
   { href: "/#contact", id: "contact", label: "Contact" },
 ] as const;
 

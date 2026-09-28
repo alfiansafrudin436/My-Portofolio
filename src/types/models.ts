@@ -38,4 +38,5 @@ export type TimelineItem = {
   startDate: string;
   endDate: string | null;
   isCurrent: boolean;
+  duration?: string;
 };

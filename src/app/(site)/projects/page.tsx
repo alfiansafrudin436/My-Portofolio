@@ -14,7 +14,7 @@ export default async function ProjectsPage() {
 
   return (
     <Container className="py-20 md:py-28">
-      <h1 className="text-4xl font-medium">Projects</h1>
+      <h1 className="text-4xl font-semibold tracking-tight">Projects</h1>
       <p className="mt-4 max-w-[52ch] text-lg text-fg-muted text-pretty">
         Everything published, newest first.
       </p>

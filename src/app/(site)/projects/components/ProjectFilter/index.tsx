@@ -13,8 +13,8 @@ export function ProjectFilter({ projects }: { projects: Project[] }) {
   return (
     <>
       {techs.length > 0 && (
-        <div className="mb-12 flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-border py-4">
-          <span className="label text-fg-subtle">Filter</span>
+        <div className="mb-10 flex flex-wrap items-center gap-2">
+          <span className="mr-2 text-sm text-fg-subtle">Filter</span>
           {techs.map((tech) => (
             <button
               key={tech}
@@ -22,10 +22,10 @@ export function ProjectFilter({ projects }: { projects: Project[] }) {
               onClick={() => toggle(tech)}
               aria-pressed={active.includes(tech)}
               className={cn(
-                "label border-b-2 py-1 transition-colors",
+                "rounded-full border px-3 py-1 text-sm transition-colors",
                 active.includes(tech)
-                  ? "border-accent text-fg"
-                  : "border-transparent text-fg-muted hover:text-fg",
+                  ? "border-accent bg-accent-subtle text-accent"
+                  : "border-border text-fg-muted hover:border-fg-subtle hover:text-fg",
               )}
             >
               {tech}
@@ -35,7 +35,7 @@ export function ProjectFilter({ projects }: { projects: Project[] }) {
             <button
               type="button"
               onClick={reset}
-              className="label ml-auto text-accent underline underline-offset-4"
+              className="ml-auto text-sm text-accent underline underline-offset-4"
             >
               Clear
             </button>
@@ -49,9 +49,9 @@ export function ProjectFilter({ projects }: { projects: Project[] }) {
           description="Try removing one of the filters."
         />
       ) : (
-        <div className="border-b border-border">
-          {filtered.map((project, index) => (
-            <ProjectRow key={project.id} project={project} index={index} />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((project) => (
+            <ProjectRow key={project.id} project={project} />
           ))}
         </div>
       )}

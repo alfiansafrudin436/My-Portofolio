@@ -26,7 +26,7 @@ export function EducationSection({ education }: { education: Education[] }) {
 
   return (
     <Section id="education">
-      <SectionHeading index="05" title="Education" />
+      <SectionHeading eyebrow="Background" title="Education" />
       <Timeline items={education.map(toTimelineItem)} />
     </Section>
   );

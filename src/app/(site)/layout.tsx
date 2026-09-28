@@ -14,7 +14,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
 
   return (
     <>
-      <SiteHeader name={name} />
+      <SiteHeader name={name} resumeUrl={profile?.resume_url} />
       <main className="flex-1 pt-16">{children}</main>
       <SiteFooter name={name} socialLinks={socialLinks} />
     </>

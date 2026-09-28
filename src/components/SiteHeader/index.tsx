@@ -2,12 +2,19 @@
 
 import NextLink from "next/link";
 import { Menu, X } from "lucide-react";
+import { buttonClasses } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useSiteHeader } from "@/components/SiteHeader/hooks";
 import { cn } from "@/lib/utils/cn";
 
-export function SiteHeader({ name }: { name: string }) {
+export function SiteHeader({
+  name,
+  resumeUrl,
+}: {
+  name: string;
+  resumeUrl?: string | null;
+}) {
   const { links, isOpen, isScrolled, activeSection, toggle, close } =
     useSiteHeader();
 
@@ -16,14 +23,14 @@ export function SiteHeader({ name }: { name: string }) {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors",
         isScrolled || isOpen
-          ? "border-b border-border bg-bg"
+          ? "border-b border-border bg-bg/85 backdrop-blur"
           : "border-b border-transparent",
       )}
     >
       <Container className="flex h-16 items-center justify-between gap-6">
         <NextLink
           href="/"
-          className="label text-fg transition-colors hover:text-accent"
+          className="font-semibold text-fg transition-colors hover:text-accent"
         >
           {name}
         </NextLink>
@@ -35,7 +42,7 @@ export function SiteHeader({ name }: { name: string }) {
               href={link.href}
               aria-current={activeSection === link.id ? "true" : undefined}
               className={cn(
-                "label border-b-2 py-1 transition-colors",
+                "border-b-2 py-1 text-sm font-medium transition-colors",
                 activeSection === link.id
                   ? "border-accent text-fg"
                   : "border-transparent text-fg-muted hover:text-fg",
@@ -48,12 +55,22 @@ export function SiteHeader({ name }: { name: string }) {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          {resumeUrl && (
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className={buttonClasses("accent", "sm", "hidden md:inline-flex")}
+            >
+              Download CV
+            </a>
+          )}
           <button
             type="button"
             onClick={toggle}
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
-            className="grid size-9 place-items-center border border-border text-fg-muted transition-colors hover:border-border-strong hover:text-fg md:hidden"
+            className="grid size-9 place-items-center rounded-md border border-border text-fg-muted transition-colors hover:border-border-strong hover:text-fg md:hidden"
           >
             {isOpen ? (
               <X className="size-4" aria-hidden />
@@ -77,6 +94,17 @@ export function SiteHeader({ name }: { name: string }) {
                 {link.label}
               </NextLink>
             ))}
+            {resumeUrl && (
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                onClick={close}
+                className={buttonClasses("accent", "lg", "mt-6")}
+              >
+                Download CV
+              </a>
+            )}
           </Container>
         </div>
       )}
