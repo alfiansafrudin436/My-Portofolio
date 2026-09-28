@@ -70,7 +70,7 @@ export function ProjectForm({
               onClick={regenerateSlug}
               aria-label="Regenerate slug from title"
               title="Regenerate from title"
-              className="grid size-10 shrink-0 place-items-center border border-border text-fg-subtle transition-colors hover:border-border-strong hover:text-fg"
+              className="grid size-10 shrink-0 place-items-center rounded-md border border-border text-fg-subtle transition-colors hover:border-border-strong hover:text-fg"
             >
               <RotateCcw className="size-3.5" aria-hidden />
             </button>
@@ -109,13 +109,13 @@ export function ProjectForm({
           {gallery.length > 0 && (
             <div className="grid grid-cols-3 gap-2">
               {gallery.map((url) => (
-                <div key={url} className="relative aspect-4/3 border border-border">
+                <div key={url} className="relative aspect-4/3 overflow-hidden rounded-lg border border-border">
                   <Image src={url} alt="" fill sizes="20vw" className="object-cover" />
                   <button
                     type="button"
                     onClick={() => setGallery(gallery.filter((item) => item !== url))}
                     aria-label="Remove gallery image"
-                    className="absolute top-1 right-1 grid size-6 place-items-center border border-border bg-bg text-fg-muted transition-colors hover:text-danger"
+                    className="absolute top-1 right-1 grid size-6 place-items-center rounded-md border border-border bg-bg text-fg-muted transition-colors hover:text-danger"
                   >
                     <X className="size-3" aria-hidden />
                   </button>

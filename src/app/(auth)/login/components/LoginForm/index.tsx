@@ -11,8 +11,8 @@ export function LoginForm({ next }: { next?: string }) {
 
   return (
     <div className="w-full max-w-sm">
-      <p className="label text-accent">Admin access</p>
-      <h1 className="mt-3 text-3xl font-medium">Sign in</h1>
+      <p className="text-sm font-medium text-accent">Admin access</p>
+      <h1 className="mt-3 text-3xl font-semibold tracking-tight">Sign in</h1>
       <p className="mt-3 text-sm text-fg-muted">
         Master data is restricted to the site owner.
       </p>
@@ -20,7 +20,7 @@ export function LoginForm({ next }: { next?: string }) {
       {error && (
         <p
           role="alert"
-          className="mt-8 border border-danger px-4 py-3 text-sm text-danger"
+          className="mt-8 rounded-md border border-danger px-4 py-3 text-sm text-danger"
         >
           {error}
         </p>
@@ -31,7 +31,6 @@ export function LoginForm({ next }: { next?: string }) {
           <Input
             id="email"
             type="email"
-            variant="underline"
             autoComplete="email"
             autoFocus
             invalid={Boolean(errors.email)}
@@ -48,7 +47,6 @@ export function LoginForm({ next }: { next?: string }) {
           <Input
             id="password"
             type="password"
-            variant="underline"
             autoComplete="current-password"
             invalid={Boolean(errors.password)}
             {...form.register("password")}
@@ -62,7 +60,7 @@ export function LoginForm({ next }: { next?: string }) {
 
       <NextLink
         href="/"
-        className="label mt-10 inline-block text-fg-subtle transition-colors hover:text-fg"
+        className="mt-10 inline-block text-sm text-fg-subtle transition-colors hover:text-fg"
       >
         ← Back to site
       </NextLink>

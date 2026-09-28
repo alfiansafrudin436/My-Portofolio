@@ -24,17 +24,17 @@ export function MasterDataShell({
   } = useMasterDataShell();
 
   const navLinks = (
-    <nav className="flex flex-col" aria-label="Master data">
+    <nav className="flex flex-col gap-1" aria-label="Master data">
       {nav.map((item) => (
         <NextLink
           key={item.href}
           href={item.href}
           aria-current={isActive(item.href, item.exact) ? "page" : undefined}
           className={cn(
-            "label border-l-2 py-3 pl-4 transition-colors",
+            "rounded-md px-3 py-2 text-sm font-medium transition-colors",
             isActive(item.href, item.exact)
-              ? "border-accent text-fg"
-              : "border-transparent text-fg-muted hover:border-border hover:text-fg",
+              ? "bg-accent-subtle text-accent"
+              : "text-fg-muted hover:bg-bg-subtle hover:text-fg",
           )}
         >
           {item.label}
@@ -47,7 +47,7 @@ export function MasterDataShell({
     <div className="flex min-h-screen flex-col md:flex-row">
       {/* Mobile bar */}
       <div className="flex h-16 items-center justify-between border-b border-border px-6 md:hidden">
-        <NextLink href="/master-data" className="label text-fg">
+        <NextLink href="/master-data" className="font-semibold text-fg">
           Master Data
         </NextLink>
         <div className="flex items-center gap-2">
@@ -57,7 +57,7 @@ export function MasterDataShell({
             onClick={toggleSidebar}
             aria-label={isSidebarOpen ? "Close menu" : "Open menu"}
             aria-expanded={isSidebarOpen}
-            className="grid size-9 place-items-center border border-border text-fg-muted transition-colors hover:text-fg"
+            className="grid size-9 place-items-center rounded-md border border-border text-fg-muted transition-colors hover:text-fg"
           >
             {isSidebarOpen ? (
               <X className="size-4" aria-hidden />
@@ -73,24 +73,24 @@ export function MasterDataShell({
       )}
 
       {/* Desktop sidebar */}
-      <aside className="hidden w-60 shrink-0 flex-col justify-between border-r border-border py-8 md:sticky md:top-0 md:flex md:h-screen">
+      <aside className="hidden w-60 shrink-0 flex-col justify-between border-r border-border bg-surface py-8 md:sticky md:top-0 md:flex md:h-screen">
         <div>
           <div className="flex items-center justify-between px-6 pb-8">
             <NextLink
               href="/master-data"
-              className="label text-fg transition-colors hover:text-accent"
+              className="font-semibold text-fg transition-colors hover:text-accent"
             >
               Master Data
             </NextLink>
             <ThemeToggle />
           </div>
-          <div className="pr-6">{navLinks}</div>
+          <div className="px-4">{navLinks}</div>
         </div>
 
         <div className="space-y-3 border-t border-border px-6 pt-6">
           <NextLink
             href="/"
-            className="label block text-fg-subtle transition-colors hover:text-fg"
+            className="block text-sm text-fg-subtle transition-colors hover:text-fg"
           >
             ← View site
           </NextLink>
@@ -101,7 +101,7 @@ export function MasterDataShell({
             type="button"
             onClick={handleSignOut}
             disabled={isSigningOut}
-            className="label inline-flex items-center gap-2 text-fg-muted transition-colors hover:text-danger disabled:opacity-50"
+            className="inline-flex items-center gap-2 text-sm text-fg-muted transition-colors hover:text-danger disabled:opacity-50"
           >
             <LogOut className="size-3.5" aria-hidden />
             {isSigningOut ? "Signing out" : "Sign out"}
