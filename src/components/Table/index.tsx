@@ -37,13 +37,13 @@ export function Table<T>({
     <div className={cn("overflow-x-auto", className)}>
       <table className="w-full min-w-3xl border-collapse">
         <thead>
-          <tr className="border-y border-border-strong">
+          <tr className="border-b border-border">
             {columns.map((column) => (
               <th
                 key={column.key}
                 scope="col"
                 className={cn(
-                  "label px-3 py-3 font-normal text-fg-muted first:pl-0 last:pr-0",
+                  "px-3 py-3 text-xs font-medium text-fg-subtle first:pl-0 last:pr-0",
                   ALIGN[column.align ?? "left"],
                   column.width,
                 )}

@@ -27,7 +27,7 @@ export function TagInput({
   return (
     <div
       className={cn(
-        "flex flex-wrap items-center gap-2 border px-3 py-2 transition-colors focus-within:border-border-strong",
+        "flex flex-wrap items-center gap-2 rounded-md border bg-surface px-3 py-2 transition-colors focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20",
         invalid ? "border-danger" : "border-border",
         className,
       )}
@@ -35,7 +35,7 @@ export function TagInput({
       {tags.map((tag) => (
         <span
           key={tag}
-          className="label inline-flex items-center gap-1.5 border border-border bg-bg-subtle py-1 pr-1 pl-2 text-fg"
+          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg-subtle py-0.5 pr-1.5 pl-2.5 text-xs font-medium text-fg"
         >
           {tag}
           <button

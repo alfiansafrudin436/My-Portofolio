@@ -15,11 +15,11 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-3 border border-dashed border-border px-6 py-16 text-center",
+        "flex flex-col items-center gap-3 rounded-lg border border-dashed border-border bg-surface/50 px-6 py-16 text-center",
         className,
       )}
     >
-      <p className="label text-fg">{title}</p>
+      <p className="font-medium text-fg">{title}</p>
       {description && (
         <p className="max-w-sm text-sm text-fg-muted">{description}</p>
       )}

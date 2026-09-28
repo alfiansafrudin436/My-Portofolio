@@ -8,7 +8,7 @@ export const FIELD_BASE =
 
 export const FIELD_VARIANTS: Record<FieldVariant, string> = {
   boxed:
-    "border border-border px-3 py-2.5 focus:border-border-strong aria-[invalid=true]:border-danger",
+    "rounded-md border border-border bg-surface px-3 py-2.5 focus:border-accent focus:ring-2 focus:ring-accent/20 aria-[invalid=true]:border-danger",
   underline:
     "border-0 border-b border-border px-0 py-2.5 focus:border-accent aria-[invalid=true]:border-danger",
 };

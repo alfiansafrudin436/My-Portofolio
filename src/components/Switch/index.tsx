@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils/cn";
 
-/** Square-track toggle, for flipping a row's published/visible flag inline. */
+/** Toggle, for flipping a row's published/visible flag inline. */
 export function Switch({
   checked,
   onChange,
@@ -25,8 +25,8 @@ export function Switch({
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={cn(
-        "relative inline-flex h-5 w-9 shrink-0 items-center border transition-colors",
-        checked ? "border-fg bg-fg" : "border-border bg-transparent",
+        "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full border transition-colors",
+        checked ? "border-accent bg-accent" : "border-border bg-bg-subtle",
         "disabled:cursor-not-allowed disabled:opacity-40",
         className,
       )}
@@ -34,8 +34,8 @@ export function Switch({
       <span
         aria-hidden
         className={cn(
-          "absolute size-3.5 transition-transform",
-          checked ? "translate-x-4.5 bg-bg" : "translate-x-0.5 bg-fg-subtle",
+          "absolute size-3.5 rounded-full transition-transform",
+          checked ? "translate-x-4.5 bg-accent-fg" : "translate-x-0.5 bg-fg-subtle",
         )}
       />
     </button>

@@ -22,8 +22,8 @@ export function IconButton({
       aria-label={label}
       title={label}
       className={cn(
-        "grid place-items-center border border-border text-fg-muted transition-colors",
-        "hover:border-border-strong hover:text-fg",
+        "grid place-items-center rounded-md border border-border text-fg-muted transition-colors",
+        "hover:border-fg-subtle hover:bg-bg-subtle hover:text-fg",
         "disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-border disabled:hover:text-fg-muted",
         size === "sm" ? "size-7" : "size-9",
         className,
