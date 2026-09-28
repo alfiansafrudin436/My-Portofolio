@@ -43,7 +43,7 @@ export function ConfirmDialog({
 
       {confirmPhrase && (
         <label className="mt-5 block">
-          <span className="label block text-fg-muted">
+          <span className="block text-sm font-medium text-fg-muted">
             Type <span className="text-fg">{confirmPhrase}</span> to confirm
           </span>
           <Input

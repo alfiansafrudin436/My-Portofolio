@@ -1,19 +1,26 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { ArrowDownToLine, ArrowRight, MapPin } from "lucide-react";
 import { Container } from "@/components/Container";
+import { buttonClasses } from "@/components/Button";
 import type { Profile } from "@/types/models";
 
-/**
- * Accents the final word of the statement. Returns the lead separately so the
- * line can still wrap naturally instead of being broken by hand.
- */
+/** Accents the final word of the statement without hand-breaking the line. */
 function splitLast(text: string): [string, string] {
   const trimmed = text.trim();
   const index = trimmed.lastIndexOf(" ");
   if (index === -1) return ["", trimmed];
   return [trimmed.slice(0, index), trimmed.slice(index + 1)];
+}
+
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
 }
 
 export function Hero({ profile }: { profile: Profile | null }) {
@@ -30,79 +37,112 @@ export function Hero({ profile }: { profile: Profile | null }) {
       opacity: 1,
       y: 0,
       transition: {
-        duration: reduceMotion ? 0 : 0.45,
+        duration: reduceMotion ? 0 : 0.5,
         delay: reduceMotion ? 0 : index * 0.09,
         ease: "easeOut" as const,
       },
     }),
   };
+  const anim = { variants: reveal, initial: "hidden", animate: "visible" } as const;
 
   return (
-    <Container
-      as="section"
-      className="flex min-h-[calc(72svh-4rem)] flex-col justify-center py-16"
-    >
-      <h1>
-        {/* The name is the title; the tagline below is the subtitle. They are
-            separated three ways — size, weight and colour — so the hierarchy
-            survives even at phone width where the size gap narrows. */}
-        <motion.span
-          custom={0}
-          variants={reveal}
-          initial="hidden"
-          animate="visible"
-          className="block text-display font-medium text-balance"
-        >
-          {name}
-        </motion.span>
+    <Container as="section" className="pt-12 pb-10 md:pt-20 md:pb-14">
+      <div className="grid items-center gap-12 md:grid-cols-12">
+        <div className="md:col-span-7">
+          <motion.div custom={0} {...anim} className="flex flex-wrap items-center gap-3">
+            {profile?.available && (
+              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-fg">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-60" />
+                  <span className="relative inline-flex size-2 rounded-full bg-success" />
+                </span>
+                {profile.available_note ?? "Available for new opportunities"}
+              </span>
+            )}
+            {profile?.location && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-fg-muted">
+                <MapPin className="size-3.5" aria-hidden />
+                {profile.location}
+              </span>
+            )}
+          </motion.div>
 
-        <motion.span
-          custom={1}
-          variants={reveal}
-          initial="hidden"
-          animate="visible"
-          className="mt-4 block max-w-[34ch] text-xl font-normal text-fg-muted text-balance"
-        >
-          {lead}{" "}
-          <span className="text-accent">{lastWord}</span>
-        </motion.span>
-      </h1>
+          <h1 className="mt-6">
+            <motion.span
+              custom={1}
+              {...anim}
+              className="block text-xl font-medium text-fg-muted text-balance"
+            >
+              {name}
+              <span className="text-fg-subtle"> · </span>
+              <span className="text-fg">
+                {profile?.headline ?? "Frontend Engineer"}
+              </span>
+            </motion.span>
+            <motion.span
+              custom={2}
+              {...anim}
+              className="mt-4 block text-display font-semibold text-fg text-balance"
+            >
+              {lead} <span className="text-accent">{lastWord}</span>
+            </motion.span>
+          </h1>
 
-      <motion.div
-        custom={2}
-        variants={reveal}
-        initial="hidden"
-        animate="visible"
-        className="mt-12 grid gap-8 border-t border-border pt-6 md:grid-cols-12"
-      >
-        <div className="space-y-2 md:col-span-4">
-          <p className="label text-fg">{profile?.headline ?? "Frontend Engineer"}</p>
-          {profile?.location && (
-            <p className="label text-fg-muted">{profile.location}</p>
-          )}
-          {profile?.available && (
-            <p className="label flex items-center gap-2 text-fg-muted">
-              <span
-                className="inline-block size-1.5 rounded-full bg-success"
-                aria-hidden
-              />
-              {profile.available_note ?? "Available for new opportunities"}
-            </p>
-          )}
-        </div>
-
-        <div className="md:col-span-6 md:col-start-7">
           {profile?.bio && (
-            <p className="max-w-[46ch] text-base text-fg-muted text-pretty">
+            <motion.p
+              custom={3}
+              {...anim}
+              className="mt-6 max-w-[54ch] text-lg text-fg-muted text-pretty"
+            >
               {profile.bio.split(/\n{2,}/)[0]}
-            </p>
+            </motion.p>
           )}
-          <p className="label mt-8 flex items-center gap-2 text-fg-subtle">
-            Scroll
-            <ArrowDown className="size-3" aria-hidden />
-          </p>
+
+          <motion.div custom={4} {...anim} className="mt-8 flex flex-wrap gap-3">
+            <a href="#contact" className={buttonClasses("accent", "lg")}>
+              Hire me
+              <ArrowRight className="size-4" aria-hidden />
+            </a>
+            {profile?.resume_url && (
+              <a
+                href={profile.resume_url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className={buttonClasses("outline", "lg")}
+              >
+                <ArrowDownToLine className="size-4" aria-hidden />
+                Download CV
+              </a>
+            )}
+            <a href="#work" className={buttonClasses("ghost", "lg")}>
+              View projects
+            </a>
+          </motion.div>
         </div>
-      </motion.div>
+
+        <motion.div
+          custom={2}
+          {...anim}
+          className="order-first md:order-none md:col-span-4 md:col-start-9"
+        >
+          <div className="relative mx-auto aspect-4/5 w-40 overflow-hidden rounded-xl border border-border bg-bg-subtle shadow-soft md:w-full">
+            {profile?.avatar_url ? (
+              <Image
+                src={profile.avatar_url}
+                alt={name}
+                fill
+                priority
+                sizes="(max-width: 768px) 160px, 33vw"
+                className="object-cover"
+              />
+            ) : (
+              <span className="grid size-full place-items-center text-5xl font-semibold text-fg-subtle">
+                {initials(name)}
+              </span>
+            )}
+          </div>
+        </motion.div>
+      </div>
     </Container>
   );
 }

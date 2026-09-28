@@ -1,82 +1,109 @@
 "use client";
 
-import { Check, Copy } from "lucide-react";
+import { ArrowDownToLine, Check, Copy, Mail, MapPin, Phone } from "lucide-react";
+import { buttonClasses } from "@/components/Button";
+import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SocialIcon } from "@/components/SocialIcon";
 import { useContactSection } from "@/app/(site)/components/ContactSection/hooks";
-import type { SocialLink } from "@/types/models";
+import type { Profile, SocialLink } from "@/types/models";
 
 export function ContactSection({
-  email,
+  profile,
   socialLinks,
 }: {
-  email: string | null;
+  profile: Profile | null;
   socialLinks: SocialLink[];
 }) {
+  const email = profile?.email ?? null;
   const { copied, canCopy, copyEmail } = useContactSection(email);
 
   return (
     <Section id="contact">
-      <SectionHeading index="06" title="Contact" />
+      <SectionHeading eyebrow="Let's talk" title="Let's work together" />
 
-      <div className="grid gap-12 md:grid-cols-12">
-        <div className="md:col-span-8">
-          {email ? (
-            <div className="flex flex-wrap items-center gap-4">
-              <a
-                href={`mailto:${email}`}
-                className="text-3xl font-medium break-all text-fg underline decoration-transparent underline-offset-8 transition-colors hover:text-accent hover:decoration-accent md:text-4xl"
-              >
+      <Reveal>
+        <div className="rounded-xl border border-border bg-bg-subtle p-8 md:p-12">
+          <p className="max-w-[52ch] text-xl text-fg text-pretty">
+            {profile?.available
+              ? (profile.available_note ??
+                "I'm open to new opportunities, and I'd love to hear what you're building.")
+              : "Have a project or role in mind? Send me a message."}
+          </p>
+
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            {email && (
+              <a href={`mailto:${email}`} className={buttonClasses("accent", "lg")}>
+                <Mail className="size-4" aria-hidden />
                 {email}
               </a>
-              {canCopy && (
-                <button
-                  type="button"
-                  onClick={copyEmail}
-                  aria-label="Copy email address"
-                  className="label inline-flex items-center gap-2 border border-border px-3 py-2 text-fg-muted transition-colors hover:border-border-strong hover:text-fg"
-                >
-                  {copied ? (
-                    <Check className="size-3.5 text-success" aria-hidden />
-                  ) : (
-                    <Copy className="size-3.5" aria-hidden />
-                  )}
-                  {copied ? "Copied" : "Copy"}
-                </button>
-              )}
-            </div>
-          ) : (
-            <p className="text-2xl text-fg-muted">
-              Reach out through any of the links.
-            </p>
-          )}
-
-          <p className="mt-6 max-w-[52ch] text-lg text-fg-muted text-pretty">
-            Always open to new opportunities, creative projects, and
-            collaboration.
-          </p>
-        </div>
-
-        <ul className="space-y-0 md:col-span-4">
-          {socialLinks.map((link) => (
-            <li key={link.id}>
+            )}
+            {email && canCopy && (
+              <button
+                type="button"
+                onClick={copyEmail}
+                aria-label="Copy email address"
+                className={buttonClasses("outline", "lg")}
+              >
+                {copied ? (
+                  <Check className="size-4 text-success" aria-hidden />
+                ) : (
+                  <Copy className="size-4" aria-hidden />
+                )}
+                {copied ? "Copied" : "Copy"}
+              </button>
+            )}
+            {profile?.resume_url && (
               <a
-                href={link.url}
+                href={profile.resume_url}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="group flex items-center justify-between gap-4 border-t border-border py-4 text-fg transition-colors last:border-b hover:text-accent"
+                className={buttonClasses("outline", "lg")}
               >
-                <span className="label">{link.label}</span>
-                <SocialIcon
-                  name={link.icon}
-                  className="size-4 transition-transform group-hover:-translate-y-0.5"
-                />
+                <ArrowDownToLine className="size-4" aria-hidden />
+                Download CV
               </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+            )}
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-fg-muted">
+            {profile?.phone && (
+              <a
+                href={`tel:${profile.phone.replace(/\s+/g, "")}`}
+                className="inline-flex items-center gap-2 hover:text-accent"
+              >
+                <Phone className="size-4" aria-hidden />
+                {profile.phone}
+              </a>
+            )}
+            {profile?.location && (
+              <span className="inline-flex items-center gap-2">
+                <MapPin className="size-4" aria-hidden />
+                {profile.location}
+              </span>
+            )}
+          </div>
+
+          {socialLinks.length > 0 && (
+            <ul className="mt-8 flex flex-wrap gap-3 border-t border-border pt-8">
+              {socialLinks.map((link) => (
+                <li key={link.id}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm text-fg transition-colors hover:border-accent hover:text-accent"
+                  >
+                    <SocialIcon name={link.icon} className="size-4" />
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </Reveal>
     </Section>
   );
 }

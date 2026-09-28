@@ -48,7 +48,7 @@ export function Modal({
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
             className={cn(
-              "my-auto w-full border border-border bg-surface",
+              "my-auto w-full rounded-xl border border-border bg-surface shadow-soft",
               size === "sm" && "max-w-md",
               size === "md" && "max-w-2xl",
               size === "lg" && "max-w-4xl",
@@ -56,7 +56,7 @@ export function Modal({
           >
             <div className="flex items-start justify-between gap-6 border-b border-border px-6 py-5">
               <div>
-                <h2 id={titleId} className="text-xl font-medium text-fg">
+                <h2 id={titleId} className="text-xl font-semibold text-fg">
                   {title}
                 </h2>
                 {description && (

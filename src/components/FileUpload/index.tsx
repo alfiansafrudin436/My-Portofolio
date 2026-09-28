@@ -46,7 +46,7 @@ export function FileUpload({
   return (
     <div>
       {value && !multiple ? (
-        <div className="relative aspect-16/9 w-full border border-border">
+        <div className="relative aspect-16/9 w-full overflow-hidden rounded-lg border border-border">
           <Image
             src={value}
             alt=""
@@ -58,7 +58,7 @@ export function FileUpload({
             type="button"
             onClick={clear}
             aria-label="Remove image"
-            className="absolute top-2 right-2 grid size-8 place-items-center border border-border bg-bg text-fg-muted transition-colors hover:text-danger"
+            className="absolute top-2 right-2 grid size-8 place-items-center rounded-md border border-border bg-bg text-fg-muted transition-colors hover:text-danger"
           >
             <X className="size-4" aria-hidden />
           </button>
@@ -79,10 +79,10 @@ export function FileUpload({
           }}
           disabled={isUploading}
           className={cn(
-            "flex w-full flex-col items-center justify-center gap-2 border border-dashed px-6 py-10 transition-colors",
+            "flex w-full flex-col items-center justify-center gap-2 rounded-lg border border-dashed px-6 py-10 transition-colors",
             isDragging
               ? "border-accent bg-accent-subtle"
-              : "border-border hover:border-border-strong",
+              : "border-border hover:border-accent",
             isUploading && "cursor-wait opacity-60",
           )}
         >
@@ -91,7 +91,7 @@ export function FileUpload({
           ) : (
             <ImagePlus className="size-5 text-fg-subtle" aria-hidden />
           )}
-          <span className="label text-fg-muted">
+          <span className="text-sm text-fg-muted">
             {isUploading ? "Uploading" : label}
           </span>
           <span className="text-xs text-fg-subtle">PNG, JPEG, WebP or AVIF · max 5 MB</span>

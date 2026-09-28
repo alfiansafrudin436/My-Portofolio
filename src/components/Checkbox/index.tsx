@@ -20,7 +20,7 @@ export function Checkbox({
     <label className={cn("flex cursor-pointer items-start gap-3", className)}>
       <input
         type="checkbox"
-        className="mt-0.5 size-4 shrink-0 appearance-none border border-border-strong bg-transparent transition-colors checked:bg-fg checked:after:block checked:after:h-full checked:after:w-full checked:after:bg-bg checked:after:[clip-path:polygon(14%_44%,0_65%,50%_100%,100%_16%,80%_0,43%_62%)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+        className="mt-0.5 size-4 shrink-0 appearance-none rounded border border-fg-subtle bg-surface transition-colors checked:border-accent checked:bg-accent checked:after:block checked:after:h-full checked:after:w-full checked:after:bg-accent-fg checked:after:[clip-path:polygon(14%_44%,0_65%,50%_100%,100%_16%,80%_0,43%_62%)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
         {...props}
       />
       <span>

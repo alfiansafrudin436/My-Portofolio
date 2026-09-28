@@ -1,68 +1,84 @@
 import Image from "next/image";
 import NextLink from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight, Code2 } from "lucide-react";
+import { Badge } from "@/components/Badge";
 import type { Project } from "@/types/models";
 
 /**
- * A full-bleed editorial row rather than a card: index, title, year, tech.
- * The cover appears inline on small screens and as a hover reveal from md up.
+ * Project card: cover always visible, role/company/year up front, tech chips
+ * and quick links to the live site and source.
  */
-export function ProjectRow({
-  project,
-  index,
-}: {
-  project: Project;
-  index: number;
-}) {
+export function ProjectRow({ project }: { project: Project }) {
+  const meta = [project.role, project.company, project.year]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
-    <NextLink
-      href={`/projects/${project.slug}`}
-      className="group block border-t border-border py-8 transition-colors hover:border-border-strong"
-    >
-      <div className="grid gap-4 md:grid-cols-12 md:items-baseline">
-        <span className="label text-fg-subtle md:col-span-1">
-          {String(index + 1).padStart(2, "0")}
-        </span>
-
-        <h3 className="text-2xl font-medium text-fg transition-colors group-hover:text-accent md:col-span-5">
-          {project.title}
-        </h3>
-
-        <span className="label text-fg-muted md:col-span-1">
-          {project.year ?? ""}
-        </span>
-
-        <div className="flex flex-wrap gap-x-3 gap-y-1 md:col-span-4">
-          {project.tech_stack.slice(0, 4).map((tech) => (
-            <span key={tech} className="label text-fg-subtle">
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        <ArrowRight
-          className="size-4 text-fg-subtle transition-transform group-hover:translate-x-1 group-hover:text-accent md:col-span-1 md:justify-self-end"
-          aria-hidden
-        />
-      </div>
-
-      {project.summary && (
-        <p className="mt-3 max-w-[60ch] text-sm text-fg-muted md:ml-[8.333%] md:pl-4">
-          {project.summary}
-        </p>
-      )}
-
-      {project.cover_url && (
-        <div className="relative mt-6 aspect-16/9 w-full overflow-hidden border border-border md:mt-0 md:ml-[8.333%] md:h-0 md:opacity-0 md:transition-all md:duration-500 md:group-hover:mt-6 md:group-hover:h-auto md:group-hover:aspect-21/9 md:group-hover:opacity-100">
+    <article className="group relative flex flex-col overflow-hidden rounded-lg border border-border bg-surface shadow-soft transition-all hover:-translate-y-1 hover:border-fg-subtle">
+      <div className="relative aspect-16/10 w-full overflow-hidden bg-bg-subtle">
+        {project.cover_url && (
           <Image
             src={project.cover_url}
             alt=""
             fill
-            sizes="(max-width: 768px) 100vw, 80vw"
-            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-        </div>
-      )}
-    </NextLink>
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col p-6">
+        {meta && <p className="text-xs font-medium text-fg-subtle">{meta}</p>}
+
+        <h3 className="mt-2 text-xl font-semibold text-fg">
+          {/* Stretched link makes the whole card clickable. */}
+          <NextLink
+            href={`/projects/${project.slug}`}
+            className="transition-colors group-hover:text-accent after:absolute after:inset-0"
+          >
+            {project.title}
+          </NextLink>
+        </h3>
+
+        {project.summary && (
+          <p className="mt-2 text-sm text-fg-muted text-pretty">{project.summary}</p>
+        )}
+
+        {project.tech_stack.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {project.tech_stack.slice(0, 5).map((tech) => (
+              <Badge key={tech} tone="muted">
+                {tech}
+              </Badge>
+            ))}
+          </div>
+        )}
+
+        {(project.live_url || project.github_url) && (
+          <div className="relative z-10 mt-auto flex gap-4 pt-5 text-sm font-medium">
+            {project.live_url && (
+              <a
+                href={project.live_url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-flex items-center gap-1 text-fg hover:text-accent"
+              >
+                Live <ArrowUpRight className="size-3.5" aria-hidden />
+              </a>
+            )}
+            {project.github_url && (
+              <a
+                href={project.github_url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-flex items-center gap-1 text-fg-muted hover:text-accent"
+              >
+                <Code2 className="size-3.5" aria-hidden /> Source
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </article>
   );
 }

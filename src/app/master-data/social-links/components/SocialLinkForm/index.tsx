@@ -83,7 +83,7 @@ export function SocialLinkForm({
       <Field label="Icon" htmlFor="icon" error={errors.icon?.message}>
         <div className="flex items-center gap-3">
           <Select id="icon" options={ICON_OPTIONS} className="flex-1" {...form.register("icon")} />
-          <span className="grid size-10 shrink-0 place-items-center border border-border text-fg">
+          <span className="grid size-10 shrink-0 place-items-center rounded-md border border-border text-fg">
             <SocialIcon name={icon} className="size-4" />
           </span>
         </div>

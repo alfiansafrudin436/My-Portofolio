@@ -22,7 +22,7 @@ function FormSection({
   return (
     <section className="grid gap-6 border-t border-border py-8 md:grid-cols-12">
       <div className="md:col-span-4">
-        <h2 className="label text-fg">{title}</h2>
+        <h2 className="text-lg font-semibold text-fg">{title}</h2>
         {description && (
           <p className="mt-2 text-xs text-fg-muted">{description}</p>
         )}

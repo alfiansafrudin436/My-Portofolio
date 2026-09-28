@@ -27,7 +27,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
               className={cn(
-                "pointer-events-auto flex w-full max-w-sm items-start gap-3 border bg-surface-raised py-3 pr-3 pl-4",
+                "pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-lg border bg-surface-raised py-3 pr-3 pl-4 shadow-soft",
                 "border-border border-l-2",
                 toast.tone === "success" ? "border-l-success" : "border-l-danger",
               )}

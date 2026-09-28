@@ -6,40 +6,42 @@
 
 /* ---------------------------------------------------------------- LIGHT --- */
 :root {
-  --bg: #ffffff;
-  --bg-subtle: #f6f6f4; /* warm paper, not blue-grey */
-  --surface: #ffffff;
+  --bg: #faf8f4; /* warm cream, easy on the eyes */
+  --bg-subtle: #f3efe8;
+  --surface: #fffdf9;
   --surface-raised: #ffffff;
-  --fg: #0b0b0b; /* near-black; pure #000 on white is harsh */
-  --fg-muted: #5f5f5b;
-  --fg-subtle: #8a8a83;
-  --border: #e2e2dd;
-  --border-strong: #0b0b0b; /* the Swiss hairline rule */
-  --accent: #d92d1c;
+  --fg: #1c1917;
+  --fg-muted: #57534e;
+  --fg-subtle: #78716c;
+  --border: #e7e2d9;
+  --border-strong: #1c1917;
+  --accent: #b9472f; /* terracotta, AA on cream */
   --accent-fg: #ffffff;
-  --accent-subtle: #fdeceb;
-  --focus: #0b0b0b;
+  --accent-subtle: #f8e6df;
+  --focus: #b9472f;
   --success: #1c6f46;
   --danger: #b3251a;
+  --shadow-card: 0 1px 2px rgb(28 25 23 / 0.04), 0 8px 24px -8px rgb(28 25 23 / 0.12);
 }
 
 /* ----------------------------------------------------------------- DARK --- */
 .dark {
-  --bg: #0b0b0b;
-  --bg-subtle: #121211;
-  --surface: #121211;
-  --surface-raised: #1a1a19;
-  --fg: #f2f2ee;
-  --fg-muted: #a3a39c;
-  --fg-subtle: #74746e;
-  --border: #292927;
-  --border-strong: #f2f2ee;
-  --accent: #ff5240;
-  --accent-fg: #0b0b0b;
-  --accent-subtle: #2a1512;
-  --focus: #f2f2ee;
+  --bg: #171412;
+  --bg-subtle: #1e1a17;
+  --surface: #1e1a17;
+  --surface-raised: #26211d;
+  --fg: #f3efe8;
+  --fg-muted: #b5aea4;
+  --fg-subtle: #8a837a;
+  --border: #322d28;
+  --border-strong: #f3efe8;
+  --accent: #ff8a70;
+  --accent-fg: #171412;
+  --accent-subtle: #33211b;
+  --focus: #ff8a70;
   --success: #52cf92;
   --danger: #ff7264;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -8px rgb(0 0 0 / 0.5);
 }
 
 @theme inline {
@@ -57,6 +59,10 @@
   --color-accent-subtle: var(--accent-subtle);
   --color-success: var(--success);
   --color-danger: var(--danger);
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --shadow-soft: var(--shadow-card);
 
   --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
@@ -88,7 +94,7 @@
   --text-display--line-height: 1.08;
   --text-display--letter-spacing: -0.025em;
 
-  --spacing-section: 7.5rem;
+  --spacing-section: 6rem;
 }
 
 @layer base {
@@ -147,7 +153,7 @@
     text-wrap: pretty;
   }
 
-  /* The workhorse of the Swiss look: uppercase mono micro-label. */
+  /* Uppercase mono micro-label; reserved for small metadata. */
   .label {
     font-family: var(--font-mono);
     font-size: var(--text-label);
